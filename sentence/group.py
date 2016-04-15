@@ -1,9 +1,14 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 import redis
+import sys
+import codecs
+reload(sys) 
+sys.setdefaultencoding("utf-8") 
+print sys.getdefaultencoding() 
 r = redis.Redis(host='114.215.85.245',port=6379,db=0)
 
-fod = open("COAE2014_4_data.txt", "r")
+fod = codecs.open("COAE2014_4_data.txt", "r", encoding='UTF-8')
 fos = open("coae2014.txt", "w+")
 count = 4999
 flag = 1
@@ -21,12 +26,17 @@ while 1:
     dindex = int(line[(start+3):end])
     print 'dindex:'+str(dindex)
     if flag == 1:
+        if count == -1:
+            break
         val = r.lindex('pingce-answer',count)
         index = val.find('=')
         findex = int(val[:index])
         print findex
         sent  = int(val[(index+1):])
+        if sent == -1:
+            sent = 0
         print sent
+        count = count - 1
         flag = 0
     else:
         pass
@@ -37,7 +47,7 @@ while 1:
         pend = part.find('<')
         vals = line[(end+1):pend]+','+str(sent)+'\n'
         print vals
-        fos.write(vals)    
+        fos.write(str(vals))    
     else:
         pass
 fos.close()
