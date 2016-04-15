@@ -1,7 +1,8 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-fos = open("negtive.txt", "r")
-fod = open("rnegtive.txt", "w+")
+import jieba,codecs
+fos = codecs.open("postive.txt", "r", encoding="UTF-8")
+fod = codecs.open("rpostive.txt", "w+", encoding="UTF-8")
 while 1:
     line = fos.readline()
     if line:
@@ -12,7 +13,9 @@ while 1:
         indexr = line2.find('<')
         line3 = line2[0:indexr]
         print line3
-        linev = line3 + ',0'+'\n'
+        seg_list = jieba.cut(line3, cut_all=False)
+        values = " ".join(seg_list)        
+        linev = "'"+values+ "',1"+'\n'
         print linev
         fod.write(linev)
     else:

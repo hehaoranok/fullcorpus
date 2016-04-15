@@ -3,6 +3,7 @@
 import redis
 import sys
 import codecs
+import jieba
 reload(sys) 
 sys.setdefaultencoding("utf-8") 
 print sys.getdefaultencoding() 
@@ -45,9 +46,12 @@ while 1:
         flag = 1
         part = line[(end+1):]
         pend = part.find('<')
-        vals = line[(end+1):pend]+','+str(sent)+'\n'
-        print vals
-        fos.write(str(vals))    
+        vals = line[(end+1):pend]
+        seg_list = jieba.cut(vals, cut_all=False)
+        values = " ".join(seg_list)
+        print values
+        ends = "'"+values+"',"+str(sent)+'\n'
+        fos.write(str(ends))    
     else:
         pass
 fos.close()
