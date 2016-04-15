@@ -10,7 +10,6 @@ print sys.getdefaultencoding()
 r = redis.Redis(host='114.215.85.245',port=6379,db=0)
 
 fod = codecs.open("COAE2014_4_data.txt", "r", encoding='UTF-8')
-fos = open("coae2014.txt", "w+")
 count = 4999
 flag = 1
 val=''
@@ -49,11 +48,10 @@ while 1:
         vals = line[(end+1):pend]
         seg_list = jieba.cut(vals, cut_all=False)
         values = " ".join(seg_list)
-        print values
-        ends = "'"+values+"',"+str(sent)+'\n'
-        fos.write(str(ends))    
+        fos = open("./coae2014/"+str(sent)+"/"+str(count)+".txt", "w+")
+        fos.write(str(values))    
+        fos.close()
     else:
         pass
-fos.close()
 fod.close()
 
