@@ -1,8 +1,9 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
 import jieba,codecs
-fos = codecs.open("negtive.txt", "r", encoding="UTF-8")
+fos = codecs.open("postive.txt", "r", encoding="UTF-8")
 count = 1
+fod = codecs.open("./test/test.txt", "a+", encoding="UTF-8")
 while 1:
     line = fos.readline()
     if line:
@@ -15,10 +16,9 @@ while 1:
         print line3
         seg_list = jieba.cut(line3, cut_all=False)
         values = " ".join(seg_list)        
-        fod = codecs.open("./train/0/"+str(count)+".txt", "w+", encoding="UTF-8")
-        fod.write(values)
-        fod.close()
+        fod.write(values+'\n')
         count = count + 1
     else:
         break
 fos.close()
+fod.close()
