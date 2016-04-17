@@ -7,7 +7,7 @@ fod = open("./experiment/alphago.txt", "w")
 while 1:
     print "================",count
     data = r.lindex('comments-alphago',count)
-    fod.write(data+',0\n')
+    fod.write("'"+data+"',0\n")
     count = count - 1
     if count == -1:
         break
