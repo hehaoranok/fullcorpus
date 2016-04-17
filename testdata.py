@@ -1,13 +1,15 @@
-import redis,codecs
+import redis,codecs,jieba
 
 r = redis.Redis(host='114.215.85.245',port=6379,db=0)
 
 count = 6243
-fod = open("./experiment/alphago1.txt", "w")
+fod = codecs.open("./experiment/alphago0.txt", "w",encoding="UTF-8")
 while 1:
     print "================",count
     data = r.lindex('comments-alphago',count)
-    fod.write("'"+data+"',1\n")
+    seg_list = jieba.cut(data, cut_all=False)
+    values = " ".join(seg_list)
+    fod.write("'"+values+"',0\n")
     count = count - 1
     if count == -1:
         break
