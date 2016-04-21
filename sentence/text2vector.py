@@ -1,13 +1,15 @@
 #!/usr/bin/python
 # -*- coding: UTF-8 -*-
-import jieba,codecs
+import jieba,codecs,redis
+r = redis.Redis(host='114.215.85.245',port=6379,db=0)
 fow = codecs.open("../word/seg.txt", "r", encoding='UTF-8')
-fos = codecs.open("coae2014.txt", "r", encoding='UTF-8')
-count = 4999
+#fos = codecs.open("alphago.txt", "r", encoding='UTF-8')
+count = 6244
 index = 1
 dict = {}
 list = []
-fod = codecs.open("mlf.bak.txt", "a+", encoding="UTF-8")
+fod1 = codecs.open("alphago_vector1.txt", "a+", encoding="UTF-8")
+fod0 = codecs.open("alphago_vector0.txt", "a+", encoding="UTF-8")
 while 1:
     line = fow.readline()
     if line:
@@ -22,38 +24,32 @@ while 1:
  #   print key
 print "++++++++++++++++++++++++++++++++++++++++++"
 while 1:
-    line = fos.readline()
+    line = r.lindex('comments-alphago',count)
+    print line
     vector = ""
-    flag = 0
     if line:
-        line = line.strip()
-        tive =  line[-1]
-        if int(tive) == 1:
-            tive = "+1"
-        else:
-            tive =  "-1"
-        line3 = line[1:-3]
+        line3 = line.strip()
         seg_list = jieba.cut(line3, cut_all=True)
         for key in seg_list:
             key = key.replace("\n","")
             key = key.strip()
             if dict.has_key(key):
                 #print key
-                flag = 1
                 dict[key] = 1
-                #vector = vector + " " + str(dict[key]) + ":1"
+                #vector = vector + str(dict[key]) + ":1" + " "
         for i in xrange(len(list)):
             if dict[list[i]] == 1:
-                vector = vector + str(i)+":1" + " "
+                vector = vector + str(i )+":1" + " "
                 dict[list[i]] = 0
-        vector = vector + " " + tive
-        if flag == 1:
-            print vector
-            #fod.write(vector+"\n")
-        count = count + 1
-    else:
+        print vector
+        fod1.write("+1 " + vector+"\n")
+        fod0.write("-1 " + vector+"\n")
+    count = count - 1
+    if count == -1:
         break
-fos.close()
-fod.close()
+#fos.close()
+fod1.close()
+fod0.close()
 fow.close()
+
 
