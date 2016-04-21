@@ -24,6 +24,7 @@ while 1:
  #   print key
 print "++++++++++++++++++++++++++++++++++++++++++"
 while 1:
+    flag = 0
     line = r.lindex('comments-alphago',count)
     print line
     vector = ""
@@ -41,9 +42,11 @@ while 1:
             if dict[list[i]] == 1:
                 vector = vector + str(i )+":1" + " "
                 dict[list[i]] = 0
+                flag = 1
         print vector
-        fod1.write("+1 " + vector+"\n")
-        fod0.write("-1 " + vector+"\n")
+        if flag == 1:
+            fod1.write("+1 " + vector+"\n")
+            fod0.write("-1 " + vector+"\n")
     count = count - 1
     if count == -1:
         break
