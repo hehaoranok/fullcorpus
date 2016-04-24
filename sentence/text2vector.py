@@ -4,12 +4,12 @@ import jieba,codecs,redis
 r = redis.Redis(host='114.215.85.245',port=6379,db=0)
 fow = codecs.open("../word/seg.txt", "r", encoding='UTF-8')
 #fos = codecs.open("alphago.txt", "r", encoding='UTF-8')
-count = 6244
+count = 2723
 index = 1
 dict = {}
 list = []
-fod1 = codecs.open("alphago_vector1.txt", "a+", encoding="UTF-8")
-fod0 = codecs.open("alphago_vector0.txt", "a+", encoding="UTF-8")
+fod1 = codecs.open("papi_vector1.txt", "a+", encoding="UTF-8")
+fod0 = codecs.open("papi_vector0.txt", "a+", encoding="UTF-8")
 while 1:
     line = fow.readline()
     if line:
@@ -25,7 +25,7 @@ while 1:
 print "++++++++++++++++++++++++++++++++++++++++++"
 while 1:
     flag = 0
-    line = r.lindex('comments-alphago',count)
+    line = r.lindex('comments-papi',count)
     print line
     vector = ""
     if line:
